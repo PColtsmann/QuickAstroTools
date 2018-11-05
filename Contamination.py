@@ -67,6 +67,8 @@ def contprob(flux,wavelength,separation,survey):
     print('')
     print('Expected number of contaminated images out of '+str(survey) +' is '+str(probsurvey))
     print('')
+    print('Expected number of galaxies in a single image is ' +str(lam))
+    print('')
     return [float(prob), float(probsurvey)]
     
 
@@ -74,5 +76,4 @@ def contprob(flux,wavelength,separation,survey):
 """
 TODO
 Include probabilities for multiple contaminating galaxies i.e. chance of multiple unrelated or multiplicity e.g. https://arxiv.org/pdf/1304.4266.pdf
-Include expected number of galaxies in an image.
 """
