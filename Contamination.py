@@ -1,7 +1,7 @@
 import numpy as np
 import mpmath as mp
 
-def contprob(flux,wavelength,separation,survey):#from Carniani et al. 2015. A&A. 584. A78
+def contprob(flux,wavelength,separation,survey):
     """
     
     Provides an estimate for probabilities of background galaxies contaminating your unbiased pointed surveys.
