@@ -1,10 +1,10 @@
 import numpy as np
 import mpmath as mp
 
-def schechter(flux,wavelength,separation,survey):#from Carniani et al. 2015. A&A. 584. A78
+def contprob(flux,wavelength,separation,survey):#from Carniani et al. 2015. A&A. 584. A78
     """
     
-    Provides an estimate for probabilities of background galaxies contaminating your unbiased ALMA surveys.
+    Provides an estimate for probabilities of background galaxies contaminating your unbiased pointed surveys.
     
     ---------------------------------------------------------------------------------------------------------
     
@@ -12,7 +12,7 @@ def schechter(flux,wavelength,separation,survey):#from Carniani et al. 2015. A&A
         
     Flux:                Limiting detection flux in mJy.
     
-    Wavelength:          Wavelength of observation in mm, only accepts 1.1 or 1.3.
+    Wavelength:          Wavelength of observation in mm, only accepts 1.1 or 1.3 or 0.87.
     
     Separation:          Minimum separation between centre of image and contaminating galaxy in arcsec.
     
@@ -21,25 +21,40 @@ def schechter(flux,wavelength,separation,survey):#from Carniani et al. 2015. A&A
     --------------------------------------------------------------------------------------------------------
     
     """
+    if wavelength != 1.1 and  wavelength != 1.3 and wavelength != 0.87:
+        raise ValueError('Wavelength must be 1.3, 1.1 or 0.87')
+    
     S = flux # mJy
     area = np.pi*(separation)**2 #area in sq arcsec
     
-    if wavelength == 1.3:
-        phi = 1.8e3
-        Sstar = 1.7
-        a = -2.08
-    elif wavelength == 1.1:
-        phi = 2.7e3
-        Sstar = 2.6
-        a = -1.81        
-    else:
-        print('Only "1.1" and "1.3" are accepted')
-        return()
+    if wavelength == 1.1 or wavelength == 1.3: #from Carniani et al. 2015. A&A. 584. A78
+        if wavelength == 1.3:
+            #Ideally should be used above 0.06 mJy.
+            phi = 1.8e3 #per square degree
+            Sstar = 1.7 #mJy
+            a = -2.08
+        elif wavelength == 1.1:
+            #Ideally should be used above 0.1 mJy.
+            phi = 2.7e3
+            Sstar = 2.6
+            a = -1.81        
+        
+        siglim = S/Sstar
+        
+        N = phi*(mp.gammainc(a+1,a=siglim,b='inf')) # integrating the Schechter function gives the incomplete gamma function scaled by phi
+        n = N/12960000 # put into square arcseconds from square degrees
     
-    siglim = S/Sstar
+    if wavelength == 0.87: #from Simpson et al. 2015. ApJ. 807. 128.
+        #Ideally should be used between 2 and 8 mJy.
+        N0 = 390 #per square degree
+        S0 = 8.4 #mJy
+        siglim = S/S0
+        a = 1.9
+        b = 10.5
+        
+        N = (N0/S0)*((siglim**a + siglim**b)**-1)
+        n = N/12960000 # put into square arcseconds from square degrees
     
-    N = phi*(mp.gammainc(a+1,a=siglim,b='inf'))#square degrees
-    n = N/12960000
     
     lam = n*area #average number of galaxies in your area of interest)
     prob0 = (np.e**(-1*lam)) #probability of no galaxies, poisson distribution
@@ -53,3 +68,11 @@ def schechter(flux,wavelength,separation,survey):#from Carniani et al. 2015. A&A
     print('Expected number of contaminated images out of '+str(survey) +' is '+str(probsurvey))
     print('')
     return [float(prob), float(probsurvey)]
+    
+
+
+"""
+TODO
+Include probabilities for multiple contaminating galaxies i.e. chance of multiple unrelated or multiplicity e.g. https://arxiv.org/pdf/1304.4266.pdf
+Include expected number of galaxies in an image.
+"""
