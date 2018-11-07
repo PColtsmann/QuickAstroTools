@@ -53,6 +53,7 @@ def contprob(flux,wavelength,separation,survey):
         b = 10.5
         
         N = (N0/S0)*((siglim**a + siglim**b)**-1)
+        #N = integrate.quad(lambda sig: (N0)*((sig**a + sig**b)**-1), siglim, +np.inf) #not sure if this or above is correct
         n = N/12960000 # put into square arcseconds from square degrees
     
     
@@ -67,7 +68,7 @@ def contprob(flux,wavelength,separation,survey):
     print('')
     print('Expected number of contaminated images out of '+str(survey) +' is '+str(probsurvey))
     print('')
-    print('Expected number of galaxies in a single image is ' +str(lam))
+    print('Expected number of galaxies in THIS image is ' +str(lam))
     print('')
     return [float(prob), float(probsurvey)]
     
