@@ -1,7 +1,7 @@
 import numpy as np
 import mpmath as mp
 
-def contprob(flux,wavelength,separation,survey):
+def contprob(flux,wavelength,separation,survey):#from Carniani et al. 2015. A&A. 584. A78
     """
     
     Provides an estimate for probabilities of background galaxies contaminating your unbiased pointed surveys.
@@ -41,25 +41,25 @@ def contprob(flux,wavelength,separation,survey):
         
         siglim = S/Sstar
         
+        
         N = phi*(mp.gammainc(a+1,a=siglim,b='inf')) # integrating the Schechter function gives the incomplete gamma function scaled by phi
         n = N/12960000 # put into square arcseconds from square degrees
     
-    if wavelength == 0.87: #from Simpson et al. 2015. ApJ. 807. 128.
+    if wavelength == 0.87: #from Stach et al. 2018. ApJ. 860. 161.
         #Ideally should be used between 2 and 8 mJy.
-        N0 = 390 #per square degree
-        S0 = 8.4 #mJy
+        N0 = 1200 #per square degree
+        S0 = 5.1 #mJy
         siglim = S/S0
-        a = 1.9
-        b = 10.5
+        a = 5.9
+        b = 0.4
+        N = integrate.quad(lambda sig: (N0)*((sig**a + sig**b)**-1), siglim, +np.inf)
+        n = N[0]/12960000 # put into square arcseconds from square degrees
         
-        N = (N0/S0)*((siglim**a + siglim**b)**-1)
-        #N = integrate.quad(lambda sig: (N0)*((sig**a + sig**b)**-1), siglim, +np.inf) #not sure if this or above is correct
-        n = N/12960000 # put into square arcseconds from square degrees
     
     
     lam = n*area #average number of galaxies in your area of interest)
     prob0 = (np.e**(-1*lam)) #probability of no galaxies, poisson distribution
-    prob = 1 - prob0 #probability of at least one galaxy contaminating a source
+    prob = 1 - prob0 #probability of at least one galaxy contaunit option - deg or arcsecminating a source
     probsurvey = prob * survey #expected contaminated sources, binomial distribution expectation
     print(' ')
     print('Chance that there is a contaminating galaxy in THIS image is '+str(100*prob)+'%')
@@ -69,12 +69,21 @@ def contprob(flux,wavelength,separation,survey):
     print('Expected number of contaminated images out of '+str(survey) +' is '+str(probsurvey))
     print('')
     print('Expected number of galaxies in THIS image is ' +str(lam))
-    print('')
+    print(' ')
     return [float(prob), float(probsurvey)]
-    
-
 
 """
 TODO
 Include probabilities for multiple contaminating galaxies i.e. chance of multiple unrelated or multiplicity e.g. https://arxiv.org/pdf/1304.4266.pdf
+Rewrite for {} use
+restrict sig figs
+Galaxy in a ring option?
+opt arg for area
+unit option - deg or arcsec
+make schechter and dpl int/no int separate functions
+include more papers specifications - based on galaxy range?
+include errors
+make survey an optional argument
+take care of multiplicity
+add warnings for being above/below recommended range 
 """
