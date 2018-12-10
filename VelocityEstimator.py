@@ -19,7 +19,7 @@ def orbit_vel(distance,mass,radius):
     
     """
     
-    R = dist*radius*1.5e11 #calculate raidus in m
+    R = distance*radius*1.5e11 #calculate raidus in m
     M = mass*2e30#calculate mass in kg
     G = 6.674e-11   #gravitational constant
     V=np.sqrt(G*M/R)#calculate velocity
