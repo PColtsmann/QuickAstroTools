@@ -1,30 +1,37 @@
 import numpy as np
+from astropy import units as u
+from astropy import constants as const
 
-def orbit_vel(distance,mass,radius):
+def orbit_vel(distance, mass, radius):
+    
     """
     
-    Returns maximum radial velocity (i.e. keplerian velocity) of object around a star.
+    Returns maximum radial velocity (i.e. keplerian velocity) of object around another massive object.
     
     -----------------------------------------------------------------------
     
     Parameters: 
     
-    Distance of the star from the Earth in parsec.
+    distance: Distance to the objects. Units in astropy units of choice or parsecs if left unitless.
     
-    Mass of the star in solar masses.
+    mass: Mass of the central object. Units in astropy units of choice or solar masses if left unitless.
     
-    Radius of the orbit in arcseconds.
+    radius: Radius of the orbit. Units in astropy units of choice or arcseconds if left unitless.
     
     -----------------------------------------------------------------------
     
     """
-    
-    R = distance*radius*1.5e11 #calculate raidus in m
-    M = mass*2e30#calculate mass in kg
-    G = 6.674e-11   #gravitational constant
-    V=np.sqrt(G*M/R)#calculate velocity
-    
-    return V/1000 #V in km/s
+    if type(distance) != type(1*u.m):
+        distance *= u.parsec
+        
+    if type(mass) != type(1*u.kg): 
+        mass *= u.solMass
+     
+    if type(radius) != type(1*u.arcsec):
+        radius *= u.arcsec
+    if radius.decompose().unit == u.rad:
+        radius = distance*np.tan(radius)
 
-#TODO
-#allow distance or angle input units, use astropy constants.
+    V=np.sqrt(const.G*mass/radius)
+    
+    return V.to(u.km/u.s)
