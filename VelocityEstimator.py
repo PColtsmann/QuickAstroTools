@@ -33,6 +33,6 @@ def orbit_vel(distance, mass, radius):
     if radius.decompose().unit == u.rad:
         radius = distance*np.tan(radius)
 
-    V=np.sqrt(const.G*mass/radius)
+    V = np.sqrt(const.G*mass/radius)
     
     return V.to(u.km/u.s)
