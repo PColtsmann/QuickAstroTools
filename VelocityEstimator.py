@@ -29,6 +29,7 @@ def orbit_vel(distance, mass, radius):
      
     if type(radius) != type(1*u.arcsec):
         radius *= u.arcsec
+        
     if radius.decompose().unit == u.rad:
         radius = distance*np.tan(radius)
 
