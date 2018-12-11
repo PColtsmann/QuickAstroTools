@@ -23,7 +23,7 @@ def sky_scale(distance=None,angle=None,size=None):
     -----------------------------------------------------------------------
     
     """
-    # type error will be raised if more than one argument is sleft as None    
+    # type error will be raised if more than one argument is left as None    
     if size == None:
         
         size = u.AU
