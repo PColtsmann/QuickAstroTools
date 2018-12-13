@@ -3,7 +3,7 @@ import mpmath as mp
 import scipy.integrate as integrate
 from astropy import units as u
 
-def contprob(flux, wavelength, separation, survey = None):
+def cont_prob(flux, wavelength, separation, survey = None):
     
     """
     
