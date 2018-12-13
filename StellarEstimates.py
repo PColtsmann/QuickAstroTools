@@ -65,7 +65,7 @@ def search(value, column, dictionary,thresh = 0.2):
     
     """
     
-    Searches for stars that have similar properties to that specificied.
+    Searches for stellar types that have similar properties to that specified.
     
     ---------------------------------------------------------------------------------------------------------
     
