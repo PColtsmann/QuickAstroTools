@@ -37,7 +37,7 @@ def cont_prob(flux, wavelength, separation, survey = None):
     if type(separation*u.degree) == type(u.degree*u.degree): 
         area = np.pi*(separation.to(u.degree).value)**2 
     else:
-        area = np.pi*(separation*u.arcsec.to(u.degree).value)**2 
+        area = np.pi*(separation*u.arcsec.to(u.degree))**2 
         
     if wavelength == 1.1 or wavelength == 1.3: #using Schechter function from Carniani et al. 2015. A&A. 584. A78
         if wavelength == 1.3:
