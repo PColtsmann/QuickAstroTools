@@ -8,6 +8,7 @@ def create_dictionary(filename):
     Constructs a dictionary of spectral types for use in the following functions.
     
     Sourced from http://www.pas.rochester.edu/~emamajek/EEM_dwarf_UBVIJHK_colors_Teff.txt
+    MamajekTable.txt in this repository can be used.
     
     Asterix/* have been removed from logAges
     ellipses/... have been replaced by inf
@@ -17,7 +18,8 @@ def create_dictionary(filename):
     
     Parameters:
         
-    filename: The name/location of the .txt file containing the stellar parameters. The file should be that linked above with the above adjustments made.
+    filename: The name/location of the .txt file containing the stellar parameters.
+              The file should be that linked above with the above adjustments made or MamajekTable.txt in this repository.
 
     --------------------------------------------------------------------------------------------------------
     
