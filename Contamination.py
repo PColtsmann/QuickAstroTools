@@ -64,7 +64,7 @@ def cont_prob(flux, wavelength, separation, survey = None):
         b = 0.4
         N = integrate.quad(lambda sig: (N0)*((sig**a + sig**b)**-1), siglim, +np.inf)
 
-    lam = N[0]*area #average number of galaxies in your area of interest
+    lam = N*area #average number of galaxies in your area of interest
     prob0 = (np.e**(-1*lam)) #probability of no galaxies, poisson distribution
     prob = 1 - prob0 #probability of at least one galaxy contaminating a source
     
