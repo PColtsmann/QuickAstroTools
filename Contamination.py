@@ -71,19 +71,19 @@ def cont_prob(flux, wavelength, separation, survey = None):
     if survey:
         probsurvey = prob * survey #expected contaminated sources, binomial distribution expectation
         print(' ')
-        print('Chance that there is a contaminating galaxy in THIS image is {} %'.format(100*prob))
+        print('Chance that there is such a contaminating galaxy in THIS image is {} %'.format(100*prob))
         print(' ')
-        print('Chance that there is a contaminating galaxy in AN image is {} %'.format(100*(1-(1-prob)**survey)))
+        print('Chance that there is such a contaminating galaxy in AN image is {} %'.format(100*(1-(1-prob)**survey)))
         print('')
-        print('Expected number of contaminated images out of {} is {}'.format(survey,probsurvey))
+        print('Expected number of such contaminated images out of {} is {}'.format(survey,probsurvey))
         print('')
-        print('Expected number of galaxies in THIS image is {}'.format(lam))
+        print('Expected number of such galaxies in THIS image is {}'.format(lam))
         print(' ')
         return [float(prob), float(probsurvey)]
     else:
         print(' ')
-        print('Chance that there is a contaminating galaxy in THIS image is {} %'.format(100*prob))
+        print('Chance that there is such a contaminating galaxy in THIS image is {} %'.format(100*prob))
         print('')
-        print('Expected number of galaxies in THIS image is {}'.format(lam))
+        print('Expected number of such galaxies in THIS image is {}'.format(lam))
         print(' ')
         return float(prob)
