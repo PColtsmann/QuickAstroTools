@@ -54,7 +54,7 @@ def cont_prob(flux, wavelength, separation, survey = None):
         siglim = S/S0
         
         N = phi*(mp.gammainc(a+1,a=siglim,b='inf')) # integrating the Schechter function gives the incomplete gamma function scaled by phi
-    
+        lam = N*area #average number of galaxies in your area of interest
     if wavelength == 0.87: #using double power law from Stach et al. 2018. ApJ. 860. 161.
         #Ideally should be used between 2 and 8 mJy.
         N0 = 1200 #per square degree
@@ -63,8 +63,8 @@ def cont_prob(flux, wavelength, separation, survey = None):
         a = 5.9
         b = 0.4
         N = integrate.quad(lambda sig: (N0)*((sig**a + sig**b)**-1), siglim, +np.inf)
-
-    lam = N*area #average number of galaxies in your area of interest
+        lam = N[0]*area #average number of galaxies in your area of interest
+    
     prob0 = (np.e**(-1*lam)) #probability of no galaxies, poisson distribution
     prob = 1 - prob0 #probability of at least one galaxy contaminating a source
     
