@@ -5,6 +5,10 @@ Short functions for simple astronomical tasks.
 
 Provides an estimate for probabilities of background galaxies contaminating your unbiased pointed surveys.
 
+## Rotation.py contains functions that:
+
+Rotate an orbit/point of interest into and out of a model reference frame from an external (e.g. sky image) frame.
+
 ## SkyScale.py contains a function that:
 
 Allows easy calculation of astronomical scales using a variety of units.
